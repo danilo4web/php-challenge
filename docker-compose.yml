@@ -1,0 +1,73 @@
+version: '3.8'
+
+networks:
+  slim-challenge:
+
+services:
+  mysql:
+    container_name: php-challenge_mysql
+    image: mysql:8
+    command: --init-file /var/www/html/database/init.sql
+    volumes:
+      - ./database/init.sql:/var/www/html/database/init.sql
+    restart: unless-stopped
+    tty: true
+    ports:
+      - '3306:3306'
+    environment:
+      MYSQL_DATABASE: ${DB_DATABASE}
+      MYSQL_USER: ${DB_USERNAME}
+      MYSQL_PASSWORD: ${DB_PASSWORD}
+      MYSQL_ROOT_PASSWORD: ${DB_PASSWORD_ROOT}
+      SERVICE_TAG: dev
+      SERVICE_NAME: mysql
+    networks:
+      - slim-challenge
+
+  nginx:
+    container_name: php-challenge_nginx
+    image: nginx:stable-alpine
+    ports:
+      - '8080:80'
+      - '9001:9001'
+    volumes:
+      - .:/var/www/html
+      - ./docker/nginx/default.conf:/etc/nginx/conf.d/default.conf
+    depends_on:
+      - php
+      - mysql
+    networks:
+      - slim-challenge
+
+  php:
+    container_name: php-challenge_php
+    build:
+      context: .
+      dockerfile: ./docker/Dockerfile
+    volumes:
+      - .:/var/www/html
+      - ./docker/php/docker-xdebug.ini:/usr/local/etc/php/conf.d/docker-php-ext-xdebug.ini
+    ports:
+      - '9000:9000'
+    networks:
+      - slim-challenge
+
+  rabbit1:
+    container_name: php-challenge_rabbit
+    image: rabbitmq:3-management
+    hostname: 'my-rabbit'
+    environment:
+      RABBITMQ_DEFAULT_USER: ${RMQ_USERNAME}
+      RABBITMQ_DEFAULT_PASS: ${RMQ_PASSWORD}
+      RABBITMQ_DEFAULT_VHOST: ${RMQ_VHOST}
+    ports:
+      - '15672:15672'
+      - '5672:5672'
+      - '25676:25676'
+    labels:
+      NAME: 'rabbit'
+    networks:
+      - slim-challenge
+
+volumes:
+  db_data: {}

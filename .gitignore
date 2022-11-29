@@ -1,0 +1,10 @@
+.idea/
+.vscode/
+/coverage/
+/vendor/
+/logs/*
+.phpunit.result.cache
+.env
+!.env.sample
+/var/cache
+/var/doctrine

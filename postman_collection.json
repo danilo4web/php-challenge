@@ -1,0 +1,110 @@
+{
+	"info": {
+		"_postman_id": "5ecf271d-bd60-4004-8fb1-006d39dfe51e",
+		"name": "PHPChallenge",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+		"_exporter_id": "5136954"
+	},
+	"item": [
+		{
+			"name": "Register New User",
+			"request": {
+				"method": "GET",
+				"header": []
+			},
+			"response": []
+		},
+		{
+			"name": "Login",
+			"request": {
+				"method": "GET",
+				"header": []
+			},
+			"response": []
+		},
+		{
+			"name": "Search Stock Market Quote",
+			"request": {
+				"method": "GET",
+				"header": [
+					{
+						"key": "Authorization",
+						"value": "Bearer {{token}}",
+						"type": "text"
+					}
+				],
+				"url": {
+					"raw": "{{URL}}/stock?q=aapl.us",
+					"host": [
+						"{{URL}}"
+					],
+					"path": [
+						"stock"
+					],
+					"query": [
+						{
+							"key": "q",
+							"value": "aapl.us"
+						}
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Show Search History",
+			"request": {
+				"method": "GET",
+				"header": [
+					{
+						"key": "Authorization",
+						"value": "Bearer {{token}}",
+						"type": "text"
+					}
+				],
+				"url": {
+					"raw": "{{URL}}/history",
+					"host": [
+						"{{URL}}"
+					],
+					"path": [
+						"history"
+					]
+				}
+			},
+			"response": []
+		}
+	],
+	"event": [
+		{
+			"listen": "prerequest",
+			"script": {
+				"type": "text/javascript",
+				"exec": [
+					""
+				]
+			}
+		},
+		{
+			"listen": "test",
+			"script": {
+				"type": "text/javascript",
+				"exec": [
+					""
+				]
+			}
+		}
+	],
+	"variable": [
+		{
+			"key": "URL",
+			"value": "localhost:8080",
+			"type": "string"
+		},
+		{
+			"key": "token",
+			"value": "eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJpZCI6MjEsImVtYWlsIjoiZGFuaWxvNHdlYkBnbWFpYWwuY29tIiwiaWF0IjoxNjY3MTQ1OTc3LCJleHAiOjE2NjcyMzIzNzd9.2GU-f5AgxY7YDpfWBLGI3S3gSprXKc3Iyii06jDTDB4",
+			"type": "string"
+		}
+	]
+}
